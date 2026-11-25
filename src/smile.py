@@ -17,10 +17,16 @@ def bs_call_price(S: float, K: float, T: float, r: float, sigma: float) -> float
 
 
 def implied_vol_from_price(
-    market_price: float, S: float, K: float, T: float, r: float,
-    sigma_low: float = 1e-4, sigma_high: float = 3.0,
+    market_price: float,
+    S: float,
+    K: float,
+    T: float,
+    r: float,
+    sigma_low: float = 1e-4,
+    sigma_high: float = 3.0,
 ) -> float:
     """Recover BS implied vol from an option price via Brent's method."""
+
     def objective(sigma):
         return bs_call_price(S, K, T, r, sigma) - market_price
 
@@ -33,8 +39,14 @@ def implied_vol_from_price(
 
 
 def extract_smile(
-    S0: float, T: float, r: float,
-    v0: float, kappa: float, theta: float, xi: float, rho: float,
+    S0: float,
+    T: float,
+    r: float,
+    v0: float,
+    kappa: float,
+    theta: float,
+    xi: float,
+    rho: float,
     strikes: list[float] | np.ndarray,
     n_paths: int = 200_000,
     n_steps: int = 100,
@@ -48,8 +60,18 @@ def extract_smile(
 
     for K in strikes:
         result = heston_european_call(
-            S0, K, T, r, v0, kappa, theta, xi, rho,
-            n_paths=n_paths, n_steps=n_steps, seed=seed,
+            S0,
+            K,
+            T,
+            r,
+            v0,
+            kappa,
+            theta,
+            xi,
+            rho,
+            n_paths=n_paths,
+            n_steps=n_steps,
+            seed=seed,
         )
         prices.append(result["price"])
         stderrs.append(result["stderr"])
@@ -70,8 +92,9 @@ def _demo() -> None:
     v0, kappa, theta, xi, rho = 0.04, 2.0, 0.04, 0.3, -0.7
 
     strikes = np.linspace(70, 130, 13)
-    result = extract_smile(S0, T, r, v0, kappa, theta, xi, rho,
-                           strikes, n_paths=100_000, seed=0)
+    result = extract_smile(
+        S0, T, r, v0, kappa, theta, xi, rho, strikes, n_paths=100_000, seed=0
+    )
 
     print("Heston implied-volatility smile")
     print("=" * 45)
