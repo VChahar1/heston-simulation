@@ -4,3 +4,13 @@ __pycache__/
 .pytest_cache/
 .vscode/
 .DS_Store
+
+.env
+.env.*
+!.env.example
+*credentials*
+*.pem
+*.key
+.ipynb_checkpoints/
+*.py[cod]
+.ruff_cache/
