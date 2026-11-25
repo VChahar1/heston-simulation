@@ -12,3 +12,5 @@ __pycache__/
 *.pem
 *.key
 .ipynb_checkpoints/
+*.py[cod]
+.ruff_cache/
